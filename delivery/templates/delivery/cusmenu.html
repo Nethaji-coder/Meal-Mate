@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meal-Mate | Menu</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+      body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        color: #333;
+      }
+
+      nav {
+        background: linear-gradient(to right, #ff6a00, #ee0979);
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      nav h2 {
+        color: #fff;
+        font-size: 26px;
+        margin: 0;
+        letter-spacing: 1px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 15px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 10px 20px;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        border: 1px solid transparent;
+      }
+
+      .nav-links a:hover {
+        background: #fff;
+        color: #ee0979;
+        border: 1px solid #fff;
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+      }
+
+      main {
+        padding: 50px 20px;
+        max-width: 1000px;
+        margin: 50px auto;
+        text-align: center;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        font-size: 32px;
+        margin-bottom: 15px;
+        color: #ff6a00;
+      }
+
+      p {
+        font-size: 18px;
+        color: #555;
+        line-height: 1.6;
+      }
+
+      a {
+        text-decoration: none;
+        color: #fff;
+        background-color: #ff6a00;
+        padding: 10px 20px;
+        border-radius: 30px;
+        font-weight: 600;
+        margin: 20px 0;
+        display: inline-block;
+        transition: 0.3s;
+      }
+
+      a:hover {
+        background-color: #ee0979;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 30px;
+        text-align: center;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      th,
+      td {
+        padding: 12px 20px;
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #ff6a00;
+        color: #fff;
+        font-size: 16px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+
+      td button {
+        padding: 10px 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      td button:hover {
+        background-color: #45a049;
+      }
+
+      footer {
+        padding: 20px;
+        text-align: center;
+        background-color: #ff6a00;
+        color: white;
+        margin-top: 50px;
+      }
+
+      /* Mobile Responsiveness */
+      @media (max-width: 768px) {
+        main {
+          padding: 30px 15px;
+        }
+
+        table {
+          font-size: 14px;
+        }
+
+        th, td {
+          padding: 10px;
+        }
+
+        a {
+          padding: 8px 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <h2>Meal-Mate</h2>
+      <div class="nav-links">
+        <a href="{% url 'delivery:cusdisplay_res' username %}">View Restaurants</a>
+        <a href="{% url 'delivery:sign_in' %}">Sign In</a>
+        <a href="{% url 'delivery:sign_up' %}">Sign Up</a>
+      </div>
+    </nav>
+
+    <main>
+      <h2>Menu for {{ res.Res_name }}</h2>
+      <p>Address: {{ res.address }}</p>
+      <p>Category: {{ res.Food_cat }}</p>
+      <p>Rating: {{ res.rating }}</p>
+      <a href="{% url 'delivery:show_cart' username %}">Show Cart</a>
+
+      <table>
+        <tr>
+          <th>Item Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Availability</th>
+          <th>Category</th>
+          <th>Actions</th>
+        </tr>
+        {% for item in menu %}
+        <tr>
+          <td>{{ item.item_name }}</td>
+          <td>{{ item.description }}</td>
+          <td>{{ item.price }}</td>
+          <td>{% if item.is_available %}Available{% else %}Not Available{% endif %}</td>
+          <td>{{ item.category }}</td>
+          <td>
+            <form method="POST" action="{% url 'delivery:add_to_cart' item.id username %}">
+              {% csrf_token %}
+              <button type="submit" onclick="return confirm('Are you sure you want to add to cart?')">
+                Add to Cart
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6">No menu items available.</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Meal-Mate | All rights reserved</p>
+    </footer>
+  </body>
+</html>

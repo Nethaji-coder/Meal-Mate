@@ -1,0 +1,84 @@
+{% extends "delivery/base.html" %}
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .login-success-container {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .content-box {
+        max-width: 600px;
+        width: 100%;
+        padding: 30px;
+        border-radius: 12px;
+        background-color: #ffffff; /* White background for the box */
+        text-align: center;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .content-box h3 {
+        color: #ff6a00;
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .content-box a {
+        display: inline-block;
+        margin: 10px;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: 0.3s;
+        box-shadow: 0 4px 8px rgba(255, 106, 0, 0.2);
+    }
+
+    .content-box a.add-res {
+        background-color: #ff6a00;
+        color: white;
+    }
+
+    .content-box a.show-res {
+        background-color: #ee0979;
+        color: white;
+    }
+
+    .content-box a:hover {
+        transform: translateY(-2px);
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-15px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+</style>
+
+<div class="login-success-container">
+    <div class="content-box">
+        <h3>Login Successful!</h3>
+        <div>
+            <a href="{% url 'delivery:add_res' %}" class="add-res">Add Restaurant</a>
+            <a href="{% url 'delivery:display_res' %}" class="show-res">Show All Restaurants</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

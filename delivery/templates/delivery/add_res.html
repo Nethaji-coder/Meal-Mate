@@ -1,0 +1,101 @@
+{% extends "delivery/base.html" %}
+{% block content %}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 60px auto;
+        padding: 35px 40px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #ff6a00;
+        font-size: 26px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
+    .form-container button {
+        width: 100%;
+        padding: 12px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    .form-container button:hover {
+        background-color: #45a049;
+        transform: scale(1.02);
+    }
+</style>
+
+<div class="form-container">
+    <h2>Add Restaurant</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="id_Res_name">Restaurant Name:</label>
+            {{ form.Res_name }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_Food_cat">Food Category:</label>
+            {{ form.Food_cat }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_rating">Rating:</label>
+            {{ form.rating }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_img">Image:</label>
+            {{ form.img }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_address">Address:</label>
+            {{ form.address }}
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+{% endblock %}

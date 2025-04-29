@@ -1,0 +1,142 @@
+{% extends "delivery/base.html" %}
+{% block content %}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .menu-container {
+        max-width: 1200px;
+        margin: 60px auto;
+        background: #fff;
+        padding: 35px 40px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        color: #ff6a00;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 28px;
+    }
+
+    .restaurant-details {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #444;
+        font-size: 16px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 15px;
+    }
+
+    th, td {
+        padding: 14px 18px;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+
+    th {
+        background-color: #ff6a00;
+        color: white;
+        font-size: 16px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    button {
+        padding: 8px 14px;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    .delete-btn {
+        background-color: #e74c3c;
+        color: white;
+    }
+
+    .add-btn {
+        background-color: #2ecc71;
+        color: white;
+        margin-top: 20px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+    }
+
+    .empty-row {
+        text-align: center;
+        font-style: italic;
+        color: #888;
+    }
+</style>
+
+<div class="menu-container">
+    <h2>Menu for {{ res.Res_name }}</h2>
+    <div class="restaurant-details">
+        <p><strong>Address:</strong> {{ res.address }}</p>
+        <p><strong>Category:</strong> {{ res.Food_cat }}</p>
+        <p><strong>Rating:</strong> {{ res.rating }}</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Availability</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in menu %}
+            <tr>
+                <td>{{ item.item_name }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.price }}</td>
+                <td>{% if item.is_available %}Available{% else %}Not Available{% endif %}</td>
+                <td>{{ item.category }}</td>
+                <td>
+                    <a href="{% url 'delivery:delete_menu' item.id %}"
+                       onclick="return confirm('Are you sure you want to delete this item?');">
+                        <button class="delete-btn">Delete</button>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="empty-row">No menu items available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'delivery:add_menu' res.id %}">
+        <button class="add-btn">Add Menu</button>
+    </a>
+</div>
+
+{% endblock %}

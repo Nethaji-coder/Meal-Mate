@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meal-Mate | Your Cart</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+      body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); /* Gradient background */
+        color: #333;
+      }
+
+      nav {
+        background: linear-gradient(to right, #ff6a00, #ee0979);
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      nav h2 {
+        color: #fff;
+        font-size: 26px;
+        margin: 0;
+        letter-spacing: 1px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 15px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 10px 20px;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        border: 1px solid transparent;
+      }
+
+      .nav-links a:hover {
+        background: #fff;
+        color: #ee0979;
+        border: 1px solid #fff;
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .cart-container {
+        padding: 40px 20px;
+        max-width: 900px;
+        margin: 50px auto;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+
+      .cart-container h3 {
+        font-size: 30px;
+        margin-bottom: 20px;
+        color: #ee0979;
+      }
+
+      .cart-container ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .cart-container ul li {
+        font-size: 18px;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .cart-container ul li:last-child {
+        border-bottom: none;
+      }
+
+      .cart-container p {
+        font-size: 20px;
+        font-weight: 600;
+        margin-top: 20px;
+        text-align: right;
+      }
+
+      .checkout-btn {
+        display: inline-block;
+        text-decoration: none;
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+        padding: 12px 25px;
+        border-radius: 6px;
+        text-align: center;
+        margin-top: 20px;
+        transition: background-color 0.3s ease;
+      }
+
+      .checkout-btn:hover {
+        background-color: #45a049;
+      }
+
+      /* Mobile responsiveness */
+      @media (max-width: 768px) {
+        .cart-container {
+          padding: 30px 15px;
+        }
+
+        .cart-container h3 {
+          font-size: 26px;
+        }
+
+        .cart-container ul li {
+          font-size: 16px;
+        }
+
+        .checkout-btn {
+          padding: 10px 20px;
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <h2>Meal-Mate</h2>
+      <div class="nav-links">
+        <a href="{% url 'delivery:cusdisplay_res' username %}">View Restaurants</a>
+        <a href="{% url 'delivery:sign_in' %}">Sign In</a>
+        <a href="{% url 'delivery:sign_up' %}">Sign Up</a>
+      </div>
+    </nav>
+
+    <div class="cart-container">
+      <h3>Your Cart</h3>
+      {% if items %}
+        <ul>
+          {% for item in items %}
+            <li>
+              <span>{{ item.item_name }}</span>
+              <span>${{ item.price }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+        <p><strong>Total Price:</strong> ${{ total_price }}</p>
+
+        <!-- Checkout Button -->
+        <a href="{% url 'delivery:checkout' username %}" class="checkout-btn">Proceed to Checkout</a>
+      {% else %}
+        <p>Your cart is empty.</p>
+      {% endif %}
+    </div>
+  </body>
+</html>
